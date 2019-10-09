@@ -1,6 +1,6 @@
 # ALBIN OCH ADAM HEJ HÅ
 .DS_Store
-data/consid/*
+data/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
