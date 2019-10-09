@@ -3,7 +3,6 @@ from skimage.io import imread
 import os
 import numpy as np
 from sklearn.utils import shuffle
-import tensorflow as tf
 import albumentations as albu
 from albumentations import Resize
 
@@ -37,13 +36,21 @@ class DataGeneratorFolder(Sequence):
             self.image_filenames, self.mask_names = shuffle(self.image_filenames, self.mask_names)
 
     def read_image_mask(self, image_name, mask_name):
-        image = imread(image_name)/255
-        print(image_name, image.shape)
+        image = np.zeros((1024,1024,3), dtype=np.float32)
+        read_image = imread(image_name)/255
+        image[:read_image.shape[0], :read_image.shape[1], :] = read_image
         mask = np.zeros(image.shape, dtype=np.int8)
         for i, layer in enumerate(['road', 'building', 'water']):
             name = mask_name.replace('all', layer)
             if os.path.exists(name):
-                mask[:,:,i] = (imread(name, as_gray=True) > 0).astype(np.int8)
+                try:
+                    submask = (imread(name, as_gray=True) > 0).astype(np.int8)
+                    if submask.shape[:2] == mask.shape[:2]:
+                        mask[:,:,i] = submask
+                    else:
+                        print(name, image.shape, submask.shape)
+                except:
+                    print("FAAAAIL", name, mask_name)
         return image, mask
 
     def __getitem__(self, index):
