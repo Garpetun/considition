@@ -1,13 +1,13 @@
 import os
 
 import matplotlib.pyplot as plt
-from segmentation_models import Unet
 from keras.optimizers import Adam
 from segmentation_models.losses import bce_jaccard_loss, bce_dice_loss
 from segmentation_models.metrics import iou_score
 
 from datagenerator import DataGeneratorFolder, get_test_generator, get_train_generator
 from callback import get_callbacks
+from model import build_model
 
 
 def plot_training_history(history):
@@ -34,9 +34,8 @@ if __name__ == "__main__":
     train_generator  = get_train_generator()
     test_generator = get_test_generator()
     callbacks = get_callbacks()
+    model = build_model()
 
-
-    model = Unet(classes=3, backbone_name='efficientnetb0', encoder_weights='imagenet', encoder_freeze=False)
     model.compile(optimizer=Adam(),
                   loss=bce_jaccard_loss, metrics=[iou_score])
 

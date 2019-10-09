@@ -1,9 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from keras.models import load_model
-from segmentation_models.losses import bce_jaccard_loss, bce_dice_loss
 from segmentation_models.metrics import iou_score
 
+from model import load_model
 from datagenerator import get_test_generator
 
 
@@ -52,10 +51,7 @@ def iou_metric_batch(y_true_in, y_pred_in):
 if __name__ == '__main__':
     test_generator = get_test_generator()
 
-    model = load_model('./weights/road_crop.efficientnetb0imgsize.h5', 
-                    custom_objects={'binary_crossentropy_plus_jaccard_loss': bce_jaccard_loss,
-                                    'iou_score': iou_score})
-
+    model = load_model()
 
     # to get single image and prediction quality
     for Xtest, y_test in test_generator:
