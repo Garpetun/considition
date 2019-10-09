@@ -37,7 +37,14 @@ class DataGeneratorFolder(Sequence):
             self.image_filenames, self.mask_names = shuffle(self.image_filenames, self.mask_names)
 
     def read_image_mask(self, image_name, mask_name):
-        return imread(image_name)/255, (imread(mask_name, as_gray=True) > 0).astype(np.int8)
+        image = imread(image_name)/255
+        print(image_name, image.shape)
+        mask = np.zeros(image.shape, dtype=np.int8)
+        for i, layer in enumerate(['road', 'building', 'water']):
+            name = mask_name.replace('all', layer)
+            if os.path.exists(name):
+                mask[:,:,i] = (imread(name, as_gray=True) > 0).astype(np.int8)
+        return image, mask
 
     def __getitem__(self, index):
         """
