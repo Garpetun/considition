@@ -9,3 +9,4 @@ sklearn
 bs4
 html5lib
 matplotlib
+requests

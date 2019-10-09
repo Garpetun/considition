@@ -45,9 +45,9 @@ if __name__ == "__main__":
     # plt.imshow(ytest[0, :,:,0])
     # plt.show()
 
-    train_generator = DataGeneratorFolder(root_dir = DATASET_DIR, 
-                                        image_folder = IMAGE_FOLDER, 
-                                        mask_folder = MASKS_FOLDER, 
+    train_generator = DataGeneratorFolder(root_dir = DATASET_DIR,
+                                        image_folder = IMAGE_FOLDER,
+                                        mask_folder = MASKS_FOLDER,
                                         augmentation = aug_with_crop,
                                         batch_size=4,
                                         image_size=512,
