@@ -1,21 +1,27 @@
+import os
+
 import matplotlib.pyplot as plt
 
 from datagenerator import DataGeneratorFolder
 from augmentation import aug_with_crop
-from callbacks import callbacks
+from callback import get_callbacks
+
+DATASET_DIR = os.path.join('.', 'data', 'consid')
+IMAGE_FOLDER = 'Images'
+MASKS_FOLDER = os.path.join('Masks', 'all')
 
 if __name__ == "__main__":
     # # Benchmark dataset
-    # test_generator = DataGeneratorFolder(root_dir = 'data/road_segmentation/training',
-    #                                      image_folder = 'input/',
-    #                                      mask_folder = 'output/',
+    # test_generator = DataGeneratorFolder(root_dir = 'data/consid/',
+    #                                      image_folder = 'Images/',
+    #                                      mask_folder = 'Masks/',
     #                                      batch_size = 1,
     #                                      nb_y_features = 1, augmentation = aug_with_crop)
 
     # Consid dataset
-    test_generator = DataGeneratorFolder(root_dir = 'data/consid/Training_dataset',
-                                         image_folder = 'Images/',
-                                         mask_folder = 'Masks/all',
+    test_generator = DataGeneratorFolder(root_dir = DATASET_DIR,
+                                         image_folder = IMAGE_FOLDER,
+                                         mask_folder = MASKS_FOLDER,
                                          batch_size = 10,
                                          nb_y_features = 1, augmentation = aug_with_crop)
     Xtest, ytest = test_generator.__getitem__(0)
@@ -25,9 +31,9 @@ if __name__ == "__main__":
     plt.show()
 
 
-    train_generator = DataGeneratorFolder(root_dir = './data/consid/training', 
-                                        image_folder = 'Images/', 
-                                        mask_folder = 'Masks/all/', 
+    train_generator = DataGeneratorFolder(root_dir = DATASET_DIR, 
+                                        image_folder = IMAGE_FOLDER, 
+                                        mask_folder = MASKS_FOLDER, 
                                         augmentation = aug_with_crop,
                                         batch_size=4,
                                         image_size=512,
