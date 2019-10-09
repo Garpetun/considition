@@ -1,0 +1,5 @@
+git+https://github.com/qubvel/efficientnet
+git+https://github.com/qubvel/classification_models.git
+git+https://github.com/qubvel/segmentation_models
+git+https://github.com/albu/albumentations
+tta-wrapper
