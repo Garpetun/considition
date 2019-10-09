@@ -1,10 +1,11 @@
 import albumentations as albu
 import numpy as np
 from albumentations import (
-    Blur, Compose, HorizontalFlip, IAAEmboss, JpegCompression, OneOf,
+    Blur, HorizontalFlip, IAAEmboss, OneOf,
     RandomBrightnessContrast, RandomCrop, RandomGamma, RandomRotate90,
     ShiftScaleRotate, Transpose, VerticalFlip, ElasticTransform,
     GridDistortion, OpticalDistortion)
+
 
 def aug_with_crop(image_size = 256, crop_prob = 1):
     # Monkey-patch lol
@@ -21,8 +22,8 @@ def aug_with_crop(image_size = 256, crop_prob = 1):
         IAAEmboss(p=0.25),
         Blur(p=0.01, blur_limit = 3),
         OneOf([
-            ElasticTransform(p=0.5, alpha=120, sigma=120 * 0.05, alpha_affine=120 * 0.03),
+            ElasticTransform(p=0.25, alpha=120, sigma=120 * 0.05, alpha_affine=120 * 0.03),
             GridDistortion(p=0.5),
-            OpticalDistortion(p=1, distort_limit=2, shift_limit=0.5)
+            OpticalDistortion(p=0.1, distort_limit=2, shift_limit=0.5)
         ], p=0.8)
     ], p = 1)
