@@ -1,4 +1,10 @@
 import albumentations as albu
+import matplotlib.pyplot as plt
+from albumentations import (
+    Blur, Compose, HorizontalFlip, IAAEmboss, JpegCompression, OneOf,
+    RandomBrightnessContrast, RandomCrop, RandomGamma, RandomRotate90,
+    ShiftScaleRotate, Transpose, VerticalFlip, ElasticTransform,
+    GridDistortion, OpticalDistortion)
 
 from datagenerator import DataGeneratorFolder
 
@@ -21,7 +27,7 @@ def aug_with_crop(image_size = 256, crop_prob = 1):
         ], p=0.8)
     ], p = 1)
 
-test_generator = DataGeneratorFolder(root_dir = 'data/road_segmentation_ideal/training',
+test_generator = DataGeneratorFolder(root_dir = 'data/road_segmentation/training',
                                      image_folder = 'input/',
                                      mask_folder = 'output/',
                                      batch_size = 1,

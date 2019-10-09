@@ -1,8 +1,7 @@
 from keras.utils import Sequence
 from skimage.io import imread
 import os
-import matplotlib.pyplot as plt
-import matplotlib
+import numpy as np
 from sklearn.utils import shuffle
 import tensorflow as tf
 import albumentations as albu
