@@ -6,6 +6,13 @@ from sklearn.utils import shuffle
 import albumentations as albu
 from albumentations import Resize
 
+from augmentation import aug_with_crop
+
+DATASET_DIR = os.path.join('.', 'data', 'consid')
+IMAGE_FOLDER = 'Images'
+MASKS_FOLDER = os.path.join('Masks', 'all')
+
+
 def listdir_fullpath(d):
     return [os.path.join(d, f) for f in os.listdir(d)]
 
@@ -97,3 +104,22 @@ class DataGeneratorFolder(Sequence):
                        y_sample.reshape(1, X_sample.shape[0], X_sample.shape[1], self.nb_y_features).astype(np.uint8)
 
         return X, y
+
+
+def get_train_generator():
+    return DataGeneratorFolder(root_dir = os.path.join(DATASET_DIR, 'training'), 
+                                        image_folder = IMAGE_FOLDER, 
+                                        mask_folder = MASKS_FOLDER, 
+                                        augmentation = aug_with_crop,
+                                        batch_size=8,
+                                        image_size=512,
+                                        nb_y_features = 3)
+
+def get_test_generator():
+    return DataGeneratorFolder(root_dir = os.path.join(DATASET_DIR, 'testing'),
+                                         image_folder = IMAGE_FOLDER,
+                                         mask_folder = MASKS_FOLDER,
+                                         batch_size = 1,
+                                         nb_y_features = 3,
+                                         image_size=1024,
+                                         augmentation = aug_with_crop)

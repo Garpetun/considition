@@ -1,14 +1,13 @@
 import os
 
 import matplotlib.pyplot as plt
+from segmentation_models import Unet
+from keras.optimizers import Adam
+from segmentation_models.losses import bce_jaccard_loss, bce_dice_loss
+from segmentation_models.metrics import iou_score
 
-from datagenerator import DataGeneratorFolder
-from augmentation import aug_with_crop
+from datagenerator import DataGeneratorFolder, get_test_generator, get_train_generator
 from callback import get_callbacks
-
-DATASET_DIR = os.path.join('.', 'data', 'consid')
-IMAGE_FOLDER = 'Images'
-MASKS_FOLDER = os.path.join('Masks', 'all')
 
 
 def plot_training_history(history):
@@ -26,32 +25,16 @@ def plot_training_history(history):
 
 if __name__ == "__main__":
 
-    test_generator = DataGeneratorFolder(root_dir = os.path.join(DATASET_DIR, 'testing'),
-                                         image_folder = IMAGE_FOLDER,
-                                         mask_folder = MASKS_FOLDER,
-                                         batch_size = 10,
-                                         nb_y_features = 3,
-                                         augmentation = aug_with_crop)
     # Xtest, ytest = test_generator.__getitem__(0)
     # plt.imshow(Xtest[0])
     # plt.show()
     # plt.imshow(ytest[0, :,:,0])
     # plt.show()
 
-    train_generator = DataGeneratorFolder(root_dir = os.path.join(DATASET_DIR, 'training'), 
-                                        image_folder = IMAGE_FOLDER, 
-                                        mask_folder = MASKS_FOLDER, 
-                                        augmentation = aug_with_crop,
-                                        batch_size=4,
-                                        image_size=512,
-                                        nb_y_features = 3)
-
+    train_generator  = get_train_generator()
+    test_generator = get_test_generator()
     callbacks = get_callbacks()
 
-    from segmentation_models import Unet
-    from keras.optimizers import Adam
-    from segmentation_models.losses import bce_jaccard_loss, bce_dice_loss
-    from segmentation_models.metrics import iou_score
 
     model = Unet(classes=3, backbone_name='efficientnetb0', encoder_weights='imagenet', encoder_freeze=False)
     model.compile(optimizer=Adam(),
