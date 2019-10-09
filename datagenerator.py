@@ -5,6 +5,7 @@ import numpy as np
 from sklearn.utils import shuffle
 import tensorflow as tf
 import albumentations as albu
+from albumentations import Resize
 
 def listdir_fullpath(d):
     return [os.path.join(d, f) for f in os.listdir(d)]
