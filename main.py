@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 
 from datagenerator import DataGeneratorFolder
 from augmentation import aug_with_crop
+from callbacks import callbacks
 
 if __name__ == "__main__":
     # # Benchmark dataset
@@ -22,3 +23,15 @@ if __name__ == "__main__":
     plt.show()
     plt.imshow(ytest[0, :,:,0])
     plt.show()
+
+
+    train_generator = DataGeneratorFolder(root_dir = './data/consid/training', 
+                                        image_folder = 'Images/', 
+                                        mask_folder = 'Masks/all/', 
+                                        augmentation = aug_with_crop,
+                                        batch_size=4,
+                                        image_size=512,
+                                        nb_y_features = 1)
+
+    callbacks = get_callbacks()
+    
