@@ -1,4 +1,5 @@
 import albumentations as albu
+import numpy as np
 from albumentations import (
     Blur, Compose, HorizontalFlip, IAAEmboss, JpegCompression, OneOf,
     RandomBrightnessContrast, RandomCrop, RandomGamma, RandomRotate90,
@@ -6,6 +7,8 @@ from albumentations import (
     GridDistortion, OpticalDistortion)
 
 def aug_with_crop(image_size = 256, crop_prob = 1):
+    # Monkey-patch lol
+    albu.augmentations.functional.MAX_VALUES_BY_DTYPE[np.dtype('float64')] = 1.0
     return albu.Compose([
         RandomCrop(width = image_size, height = image_size, p=crop_prob),
         HorizontalFlip(p=0.5),

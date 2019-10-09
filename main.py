@@ -15,7 +15,7 @@ if __name__ == "__main__":
     test_generator = DataGeneratorFolder(root_dir = 'data/consid/Training_dataset',
                                          image_folder = 'Images/',
                                          mask_folder = 'Masks/all',
-                                         batch_size = 1,
+                                         batch_size = 10,
                                          nb_y_features = 1, augmentation = aug_with_crop)
     Xtest, ytest = test_generator.__getitem__(0)
     plt.imshow(Xtest[0])
