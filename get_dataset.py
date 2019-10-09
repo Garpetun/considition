@@ -28,8 +28,8 @@ def html_url_parser(url, save_dir, show=False, wait=False):
     for image_id, link in enumerate(soup.find_all('a', href=True)):
         if(image_id == 0):
             continue
-        
- 
+
+
         img_url = link['href']
 
         try:
@@ -63,11 +63,10 @@ if __name__ == "__main__":
     URL_TEST_IMG = "https://www.cs.toronto.edu/~vmnih/data/mass_roads/valid/sat/index.html"
     URL_TEST_GT = "https://www.cs.toronto.edu/~vmnih/data/mass_roads/valid/map/index.html"
 
-    
-    html_url_parser(url=URL_TRAIN_IMG, save_dir="./road_segmentation/training/input/")
-    html_url_parser(url=URL_TRAIN_GT, save_dir="./road_segmentation/training/output/")
+    html_url_parser(url=URL_TRAIN_IMG, save_dir="data/road_segmentation/training/input/")
+    html_url_parser(url=URL_TRAIN_GT, save_dir="data/road_segmentation/training/output/")
 
-    html_url_parser(url=URL_TEST_IMG, save_dir="./road_segmentation/testing/input/")
-    html_url_parser(url=URL_TEST_GT, save_dir="./road_segmentation/testing/output/")
+    html_url_parser(url=URL_TEST_IMG, save_dir="data/road_segmentation/testing/input/")
+    html_url_parser(url=URL_TEST_GT, save_dir="data/road_segmentation/testing/output/")
 
     print("[INFO] All done!")
