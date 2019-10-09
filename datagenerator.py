@@ -59,7 +59,7 @@ class DataGeneratorFolder(Sequence):
         for i, sample_index in enumerate(indexes):
 
             X_sample, y_sample = self.read_image_mask(self.image_filenames[index * self.batch_size + i],
-                                                    self.mask_names[index * self.batch_size + i])
+                                                      self.mask_names[index * self.batch_size + i])
 
             # if augmentation is defined, we assume its a train set
             if self.augmentation is not None:
@@ -73,7 +73,7 @@ class DataGeneratorFolder(Sequence):
 
             # if augmentation isnt defined, we assume its a test set.
             # Because test images can have different sizes we resize it to be divisable by 32
-            elif self.augmentation is None and self.batch_size ==1:
+            elif self.augmentation is None and self.batch_size == 1:
                 X_sample, y_sample = self.read_image_mask(self.image_filenames[index * 1 + i],
                                                       self.mask_names[index * 1 + i])
                 augmented = Resize(height=(X_sample.shape[0]//32)*32, width=(X_sample.shape[1]//32)*32)(image = X_sample, mask = y_sample)
