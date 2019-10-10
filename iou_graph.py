@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from datagenerator import get_test_generator
+from model import load_model
+
 
 def iou_metric(y_true_in, y_pred_in):
     labels = y_true_in
@@ -63,11 +65,12 @@ def draw_get_best_threshold(ious, thresholds):
 
 if __name__ == '__main__':
     test_generator = get_test_generator()
+    model = load_model('consid.efficientnetb2_512')
 
     preds = []
     y_val = []
     for Xtest, y_test in test_generator:
-        preds.append(tta_model.predict(Xtest).reshape(1024, 1024))
+        preds.append(model.predict(Xtest).reshape(1024, 1024))
         y_val.append(y_test)
     preds = np.stack(preds, axis=0)
     y_val = np.stack(y_val, axis=0)
