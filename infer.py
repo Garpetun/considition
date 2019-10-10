@@ -56,6 +56,6 @@ if __name__ == '__main__':
     # to get single image and prediction quality
     for Xtest, y_test in test_generator:
         predicted = model.predict(Xtest)[0, :, :, :]
-        print('IOU', iou_metric(y_test[0], predicted))
-        predicted = (predicted > [0.1, 0.1, 0.1]).astype(np.float32)
+        print('IOU', iou_metric(y_test[0], predicted)) 
+        predicted = (predicted > [0.3, 0.2, 0.3]).astype(np.float32)
         plot_mask_gt_image(predicted, y_test[0], Xtest[0])

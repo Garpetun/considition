@@ -9,7 +9,7 @@ def get_callbacks(model_name):
                                    verbose =1,
                                    min_lr=0.1e-6)
     mode_autosave = ModelCheckpoint("./weights/"+model_name+".h5", monitor='val_iou_score',
-                                    mode = 'max', save_best_only=True, verbose=1, period =5)
+                                    mode = 'max', save_best_only=True, verbose=1, period =1)
 
     # stop learining as metric on validatopn stop increasing
     early_stopping = EarlyStopping(patience=20, verbose=1, mode = 'auto') 
