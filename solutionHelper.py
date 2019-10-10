@@ -21,7 +21,7 @@ def save_images_to_disk(zip_bytes, path):
 
 def clean_images_from_folder(path):
     """
-    Clears the specified folder of all .jpg images
+    Clears the specified folder of full .jpg images
     :param path: The path to the folder to clear
     """
     for file_name in os.listdir(path):

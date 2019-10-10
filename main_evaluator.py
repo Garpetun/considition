@@ -1,11 +1,17 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
 import api
 import solutionHelper
+from model import load_model
+from datagenerator import read_image
 
 api_key = '1c66d89b-24c5-4270-95e8-4269f9905076'
 image_folder_path = 'data/from_api/'
 
 
 def main():
+    model = load_model('consid.efficientnetb1imgsize')
     result = api.init_game(api_key)
     game_id = result["gameId"]
     rounds_left = result['numberOfRounds']
@@ -18,7 +24,7 @@ def main():
         image_names = solutionHelper.save_images_to_disk(zip_bytes, image_folder_path)
         for name in image_names:
             path = image_folder_path + "/" + name
-            image_solution = analyze_image(path)
+            image_solution = analyze_image(path, model)
             solutions.append({"ImageName": name,
                               "BuildingPercentage": image_solution["building_percentage"],
                               "RoadPercentage": image_solution["road_percentage"],
@@ -31,9 +37,38 @@ def main():
     solutionHelper.clean_images_from_folder(image_folder_path)
 
 
-def analyze_image(image_path):
+def plot_mask_image(mask, img):
+    fig, axs = plt.subplots(1,2, figsize=(20,10))
+    axs[0].imshow(mask, cmap="Blues")
+    axs[1].imshow(img)
+    plt.show()
+
+def analyze_image(image_path, model):
+    model_input = read_image(image_path).astype(np.float32)[None, :, :, :]
+    predicted_mask = (model.predict(model_input)[0] > [0.3, 0.2, 0.5]).astype(np.float32)
+    percentages = percentages_from_mask(predicted_mask)
     # return model[image_path] # TODO: This is out of wack
-    return {"building_percentage": 13.37, "water_percentage": 13.37, "road_percentage": 13.37}
+    result = {"building_percentage": percentages[1],
+              "water_percentage": percentages[2],
+              "road_percentage": percentages[0]}
+    # print(result)
+    # plot_mask_image(predicted_mask, model_input[0])
+    return result
+
+def percentages_from_mask(mask):
+    percentages = []
+    total_pixels = mask.shape[0] * mask.shape[1]
+    for i in range(3):
+        count_of_type = (mask[:, :, i]).sum()
+        percentages.append(count_of_type / total_pixels * 100)
+    return percentages
 
 
-main()
+def read_annotated_mask(path):
+    return np.zeros((1024, 1024, 3))
+
+
+if __name__ == '__main__':
+    testmask = read_annotated_mask('data/consid/full/Masks/full/cxb_02_07.png')
+    percentages_from_mask(testmask)
+    main()
