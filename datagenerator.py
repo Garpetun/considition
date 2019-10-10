@@ -124,7 +124,7 @@ def get_train_generator(image_size=512):
 
 def get_test_generator(image_size=1024, augment=False):
     augmentation = aug_with_crop if augment else None
-    return DataGeneratorFolder(root_dir=os.path.join(DATASET_DIR, 'full'),
+    return DataGeneratorFolder(root_dir=os.path.join(DATASET_DIR, 'testing'),
                                image_folder=IMAGE_FOLDER,
                                mask_folder=MASKS_FOLDER,
                                batch_size=1,

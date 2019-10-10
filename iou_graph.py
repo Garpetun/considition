@@ -70,12 +70,13 @@ if __name__ == '__main__':
     preds = []
     y_val = []
     for Xtest, y_test in test_generator:
-        preds.append(model.predict(Xtest).reshape(1024, 1024))
+        preds.append(model.predict(Xtest).reshape(1024, 1024, 3))
         y_val.append(y_test)
     preds = np.stack(preds, axis=0)
     y_val = np.stack(y_val, axis=0)
 
     thresholds = list(np.linspace(0.1, 0.9, 10))
+    print("entering the loop of death")
     ious = np.array([iou_metric_batch(y_val, np.int32(preds > threshold)) for threshold in (thresholds)])
 
     best_threshold, best_iou = draw_get_best_threshold(ious, thresholds)
