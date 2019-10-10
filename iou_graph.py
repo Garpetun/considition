@@ -39,6 +39,7 @@ def plot_mask_gt_image(mask, groud_truth, img):
     plt.show()
 
 def iou_metric_batch(y_true_in, y_pred_in):
+    print("batch")
     y_pred_in = y_pred_in
     batch_size = y_true_in.shape[0]
     metric = []
@@ -78,7 +79,9 @@ if __name__ == '__main__':
     thresholds = list(np.linspace(0.1, 0.9, 10))
     print("entering the loop of death")
     road_ious = np.array([iou_metric_batch(y_val, np.int32(preds > (threshold,0,0))) for threshold in (thresholds)])
+    print("entering the loop of death")
     building_ious = np.array([iou_metric_batch(y_val, np.int32(preds > (0,threshold,0))) for threshold in (thresholds)])
+    print("entering the loop of death")
     water_ious = np.array([iou_metric_batch(y_val, np.int32(preds > (0,0,threshold))) for threshold in (thresholds)])
 
     best_threshold, best_iou = draw_get_best_threshold(road_ious, thresholds)
