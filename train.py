@@ -24,16 +24,18 @@ def plot_training_history(history):
 
 
 def main():
-    train_generator = get_train_generator()
+    encoder = 'efficientnetb2'
+    name = 'consid.' + encoder + '_512'
+    train_generator = get_train_generator(512)
     # for Xtest, ytest in train_generator:
     #     plt.subplot(121)
     #     plt.imshow(Xtest[0])
     #     plt.subplot(122)
     #     plt.imshow(ytest[0]*255)
     #     plt.show()
-    test_generator = get_test_generator()
-    callbacks = get_callbacks()
-    model = build_model()
+    test_generator = get_test_generator(1024)
+    callbacks = get_callbacks(name)
+    model = build_model(encoder)
 
     model.compile(optimizer=Adam(learning_rate=0.0005),
                   loss=bce_jaccard_loss, metrics=[iou_score])

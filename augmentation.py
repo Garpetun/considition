@@ -25,5 +25,5 @@ def aug_with_crop(image_size = 256, crop_prob = 1):
             ElasticTransform(p=0.25, alpha=120, sigma=120 * 0.05, alpha_affine=120 * 0.03),
             GridDistortion(p=0.5),
             OpticalDistortion(p=0.1, distort_limit=2, shift_limit=0.5)
-        ], p=0.8)
+        ], p=0.5)
     ], p = 1)

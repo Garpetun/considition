@@ -112,22 +112,22 @@ class DataGeneratorFolder(Sequence):
         return X, y
 
 
-def get_train_generator():
+def get_train_generator(image_size=512):
     return DataGeneratorFolder(root_dir=os.path.join(DATASET_DIR, 'full'),
                                image_folder=IMAGE_FOLDER,
                                mask_folder=MASKS_FOLDER,
                                augmentation=aug_with_crop,
                                batch_size=4,
-                               image_size=512,
+                               image_size=image_size,
                                nb_y_features=3)
 
 
-def get_test_generator(augment=False):
+def get_test_generator(image_size=1024, augment=False):
     augmentation = aug_with_crop if augment else None
     return DataGeneratorFolder(root_dir=os.path.join(DATASET_DIR, 'full'),
                                image_folder=IMAGE_FOLDER,
                                mask_folder=MASKS_FOLDER,
                                batch_size=1,
                                nb_y_features=3,
-                               image_size=1024,
+                               image_size=image_size,
                                augmentation=augmentation)

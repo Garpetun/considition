@@ -51,7 +51,7 @@ def iou_metric_batch(y_true_in, y_pred_in):
 if __name__ == '__main__':
     test_generator = get_test_generator()
 
-    model = load_model()
+    model = load_model('consid.efficientnetb1imgsize')
 
     # to get single image and prediction quality
     for Xtest, y_test in test_generator:
