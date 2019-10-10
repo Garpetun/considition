@@ -21,11 +21,11 @@ def iou_metric(y_true_in, y_pred_in):
 
     # Compute union
     union = area_true + area_pred - intersection
-  
+
     # Exclude background from the analysis
     intersection = intersection[1:,1:]
     intersection[intersection == 0] = 1e-9
-    
+
     union = union[1:,1:]
     union[union == 0] = 1e-9
 
@@ -38,7 +38,7 @@ def plot_mask_gt_image(mask, groud_truth, img):
     axs[1].imshow(groud_truth*255, cmap="Blues")
     axs[2].imshow(img)
     plt.show()
-    
+
 def iou_metric_batch(y_true_in, y_pred_in):
     y_pred_in = y_pred_in
     batch_size = y_true_in.shape[0]
@@ -56,6 +56,6 @@ if __name__ == '__main__':
     # to get single image and prediction quality
     for Xtest, y_test in test_generator:
         predicted = model.predict(Xtest)[0, :, :, :]
-        print('IOU', iou_metric(y_test[0], predicted)) 
+        print('IOU', iou_metric(y_test[0], predicted))
         predicted = (predicted > [0.1, 0.1, 0.1]).astype(np.float32)
         plot_mask_gt_image(predicted, y_test[0], Xtest[0])

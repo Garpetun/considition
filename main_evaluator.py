@@ -43,6 +43,7 @@ def plot_mask_image(mask, img):
     axs[1].imshow(img)
     plt.show()
 
+
 def analyze_image(image_path, model):
     model_input = read_image(image_path).astype(np.float32)[None, :, :, :]
     predicted_mask = (model.predict(model_input)[0] > [0.3, 0.2, 0.5]).astype(np.float32)
@@ -54,6 +55,7 @@ def analyze_image(image_path, model):
     # print(result)
     # plot_mask_image(predicted_mask, model_input[0])
     return result
+
 
 def percentages_from_mask(mask):
     percentages = []
@@ -69,6 +71,4 @@ def read_annotated_mask(path):
 
 
 if __name__ == '__main__':
-    testmask = read_annotated_mask('data/consid/full/Masks/full/cxb_02_07.png')
-    percentages_from_mask(testmask)
     main()
