@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 
 import api
@@ -36,22 +37,30 @@ def main():
     solutionHelper.clean_images_from_folder(image_folder_path)
 
 
+def plot_mask_image(mask, img):
+    fig, axs = plt.subplots(1,2, figsize=(20,10))
+    axs[0].imshow(mask, cmap="Blues")
+    axs[1].imshow(img)
+    plt.show()
+
 def analyze_image(image_path, model):
     model_input = read_image(image_path).astype(np.float32)[None, :, :, :]
-    predicted_mask = model.predict(model_input)[0]
-    percentages = percentages_from_mask(predicted_mask, [0.1, 0.1, 0.1])
+    predicted_mask = (model.predict(model_input)[0] > [0.3, 0.2, 0.5]).astype(np.float32)
+    percentages = percentages_from_mask(predicted_mask)
     # return model[image_path] # TODO: This is out of wack
-    return {"building_percentage": percentages[0],
-            "water_percentage": percentages[1],
-            "road_percentage": percentages[2]}
+    result = {"building_percentage": percentages[1],
+              "water_percentage": percentages[2],
+              "road_percentage": percentages[0]}
+    # print(result)
+    # plot_mask_image(predicted_mask, model_input[0])
+    return result
 
-
-def percentages_from_mask(mask, thresholds):
+def percentages_from_mask(mask):
     percentages = []
     total_pixels = mask.shape[0] * mask.shape[1]
-    for i, threshold in enumerate(thresholds):
-        count_of_type = (mask[:, :, i] > threshold).sum()
-        percentages.append(count_of_type / total_pixels)
+    for i in range(3):
+        count_of_type = (mask[:, :, i]).sum()
+        percentages.append(count_of_type / total_pixels * 100)
     return percentages
 
 
@@ -61,5 +70,5 @@ def read_annotated_mask(path):
 
 if __name__ == '__main__':
     testmask = read_annotated_mask('data/consid/full/Masks/full/cxb_02_07.png')
-    percentages_from_mask(testmask, [0.1, 0.1, 0.1])
+    percentages_from_mask(testmask)
     main()
