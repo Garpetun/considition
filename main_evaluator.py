@@ -51,11 +51,13 @@ def analyze_image(image_path, model):
     predicted_mask[predicted_mask < 0.2] = 0
     percentages = percentages_from_mask(predicted_mask)
     # return model[image_path] # TODO: This is out of wack
-    result = {"building_percentage": percentages[1],
-              "water_percentage": percentages[2],
-              "road_percentage": percentages[0]}
+    result = {
+        "road_percentage": percentages[0]
+        "building_percentage": percentages[1],
+        "water_percentage": percentages[2]
+    }
     # print(result)
-    # plot_mask_image(predicted_mask, model_input[0])	
+    # plot_mask_image(predicted_mask, model_input[0])
     return result
 
 

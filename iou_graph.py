@@ -76,6 +76,15 @@ if __name__ == '__main__':
     y_val = np.stack(y_val, axis=0)
 
     thresholds = list(np.linspace(0.1, 0.9, 10))
-    ious = np.array([iou_metric_batch(y_val, np.int32(preds > threshold)) for threshold in (thresholds)])
+    road_ious = np.array([iou_metric_batch(y_val, np.int32(preds > (threshold,0,0))) for threshold in (thresholds)])
+    building_ious = np.array([iou_metric_batch(y_val, np.int32(preds > (0,threshold,0))) for threshold in (thresholds)])
+    water_ious = np.array([iou_metric_batch(y_val, np.int32(preds > (0,0,threshold))) for threshold in (thresholds)])
 
-    best_threshold, best_iou = draw_get_best_threshold(ious, thresholds)
+    best_threshold, best_iou = draw_get_best_threshold(road_ious, thresholds)
+    print("BEST ROAD IOU: {},{}".format(best_threshold, best_iou))
+
+    best_threshold, best_iou = draw_get_best_threshold(building_ious, thresholds)
+    print("BEST BUILDING IOU: {},{}".format(best_threshold, best_iou))
+
+    best_threshold, best_iou = draw_get_best_threshold(water_ious, thresholds)
+    print("BEST WATER IOU: {},{}".format(best_threshold, best_iou))
