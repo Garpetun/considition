@@ -49,7 +49,7 @@ def analyze_image(image_path, model):
     predicted_mask = model.predict(model_input)[0]
     predicted_mask[predicted_mask > [0.6, 0.5, 0.5]] = 1	
     predicted_mask[predicted_mask < [0.2, 0.05, 0.05]] = 0
-    # predicted_mask = (predicted_mask > [0.366666, 0.1, 0.1]).astype(np.float32)
+   # predicted_mask = (predicted_mask > [0.2, 0.05, 0.05]).astype(np.float32)
     percentages = percentages_from_mask(predicted_mask)
     # return model[image_path] # TODO: This is out of wack
     result = {

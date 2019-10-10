@@ -7,7 +7,7 @@ from segmentation_models.metrics import iou_score
 
 from datagenerator import get_test_generator, get_train_generator
 from callback import get_callbacks
-from model import build_model
+from model import build_model, load_model
 
 
 def plot_training_history(history):
@@ -25,7 +25,7 @@ def plot_training_history(history):
 
 def main():
     encoder = 'efficientnetb2'
-    name = 'consid.' + encoder + '_512'
+    name = 'consid.' + encoder + '_1024_noaug'
     train_generator = get_train_generator(512)
     # for Xtest, ytest in train_generator:
     #     plt.subplot(121)
@@ -35,9 +35,9 @@ def main():
     #     plt.show()
     test_generator = get_test_generator(1024)
     callbacks = get_callbacks(name)
-    model = build_model(encoder)
-
-    model.compile(optimizer=Adam(learning_rate=0.0005),
+    #model = build_model(encoder)
+    model = load_model('consid.efficientnetb2_512')
+    model.compile(optimizer=Adam(learning_rate=0.0001),
                   loss=bce_jaccard_loss, metrics=[iou_score])
 
     history = model.fit_generator(train_generator, shuffle=True,
