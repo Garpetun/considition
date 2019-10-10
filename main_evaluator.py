@@ -11,7 +11,7 @@ image_folder_path = 'data/from_api/'
 
 
 def main():
-    model = load_model('consid.efficientnetb1imgsize')
+    model = load_model('consid.efficientnetb2_512')
     result = api.init_game(api_key)
     game_id = result["gameId"]
     rounds_left = result['numberOfRounds']
