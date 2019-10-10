@@ -47,7 +47,7 @@ def plot_mask_image(mask, img):
 def analyze_image(image_path, model):
     model_input = read_image(image_path).astype(np.float32)[None, :, :, :]
     predicted_mask = model.predict(model_input)[0]
-    predicted_mask[predicted_mask > [0.6, 0.5, 0.5]] = 1	
+    predicted_mask[predicted_mask > [0.6, 0.5, 0.5]] = 1
     predicted_mask[predicted_mask < [0.2, 0.05, 0.05]] = 0
    # predicted_mask = (predicted_mask > [0.2, 0.05, 0.05]).astype(np.float32)
     percentages = percentages_from_mask(predicted_mask)
@@ -58,7 +58,7 @@ def analyze_image(image_path, model):
         "water_percentage": percentages[2]
     }
     #print(result)
-    #plot_mask_image(predicted_mask, model_input[0])
+    plot_mask_image(predicted_mask, model_input[0])
     return result
 
 
